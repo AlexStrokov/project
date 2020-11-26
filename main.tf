@@ -1,50 +1,17 @@
-resource "tls_private_key" "ssh-key" {
-  algorithm   = "RSA"
-}
-
 provider "google" {
-  credentials = var.credentials
-  project = var.project 
-  region  = var.region
+  project     = "testuvannya01"
+  region      = "us-west1"
+  zone        = "us-west1-b"
+  user_project_override = true
+  credentials = file("gcloudacc.json")
 }
-
-resource "google_compute_instance" "terraform" {
-  name         = "monitoring-system"
-  machine_type = "e2-medium"
-  zone         = "us-central1-a"
-  tags         = ["http-server", "https-server"]
-
+resource "google_compute_instance" "my_instance_GH_actions" {
+  name = "github_actions"
+  machine_type = "e2-small"
+  allow_stopping_for_update = true
   boot_disk {
     initialize_params {
-      image = "ubuntu-os-cloud/ubuntu-2004-lts"
+      image = "ubuntu-1804-bionic-v20201014"
     }
   }
-
-  network_interface {
-    network = "default"
-
-    access_config {
-
-    }
-  }
-  
-  metadata = {
-    ssh-keys = "${var.user}:${tls_private_key.ssh-key.public_key_openssh}"
-  }
-  
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      port        = 22
-      user        = var.user
-      timeout     = "300s"
-      private_key = tls_private_key.ssh-key.private_key_pem
-      host = google_compute_instance.terraform.network_interface.0.access_config.0.nat_ip
-    }
-
-    inline = [
-      "touch temp.txt"
-    ]
-  }
-  
 }
