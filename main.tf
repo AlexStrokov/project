@@ -21,18 +21,3 @@ resource "google_compute_instance" "my_instance" {
   }
 }
 
-resource "google_compute_network" "mynet" {
-  name = "my-network-156"
-  auto_create_subnetworks = "true"
-  }
-resource "google_compute_firewall" "mywall" {
-  name    = "mywall"
-  network = google_compute_network.mynet.self_link
-  allow {
-    protocol = "tcp"
-    ports    = ["80-9090"]
-   }
-  }
-output "ip" {
-  value = google_compute_instance.my_instance.*.network_interface.0.access_config.0.nat_ip
-}
