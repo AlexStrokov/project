@@ -14,10 +14,6 @@ resource "google_compute_instance" "my_instance" {
       image = "ubuntu-1804-bionic-v20201014"
     }
   }
-  network_interface {
-    network = google_compute_network.mynet.self_link
-    access_config {
-    }
-  }
+  
 }
 
