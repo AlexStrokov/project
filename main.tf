@@ -4,7 +4,7 @@ provider "google" {
   zone        = "us-west1-b"
   user_project_override = true
 }
-resource "google_compute_instance" "my_instance_GH_actions" {
+resource "google_compute_instance" "my_instance" {
   name = "github_actions"
   machine_type = "e2-small"
   allow_stopping_for_update = true
