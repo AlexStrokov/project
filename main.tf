@@ -3,7 +3,6 @@ provider "google" {
   region      = "us-west1"
   zone        = "us-west1-b"
   user_project_override = true
-  credentials = file("gcloudacc.json")
 }
 resource "google_compute_instance" "my_instance_GH_actions" {
   name = "github_actions"
